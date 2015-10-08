@@ -3,12 +3,22 @@
 </head>
 
 <body>
-  <h1>Welcome to Meteor!</h1>
+  <h1>Search stores by medicine availability</h1>
 
-  {{> hello}}
+  {{> medicinesList}}
 </body>
 
-<template name="hello">
-  <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
+<template name="medicinesList">
+  <p>The list of medicines - </p>
+  <ul>
+    {{#each medicines}}
+      {{> medicine}}
+    {{/each}}
+  </ul>
+</template>
+
+<template name="medicine">
+  <li>
+    {{name}}
+  </li>
 </template>
