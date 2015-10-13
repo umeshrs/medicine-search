@@ -73,6 +73,7 @@ if (Meteor.isClient) {
 
       if (searchTerm.length > 0) {
         searchTerm = new RegExp(searchTerm, 'i');
+        // medicinesList is the list of medicines matching the searchTerm
         Session.set("medicinesList", Medicines.find({ name: searchTerm }).fetch());
       } else {
         Session.set("medicinesList", undefined);
@@ -82,19 +83,38 @@ if (Meteor.isClient) {
       console.log(Session.get("medicinesList"));
     },
     'submit .search-form': function () {
-      var prescription;
+      var prescription, medicinesList, isValidName, index;
 
       event.preventDefault();
 
-      prescription = Session.get("prescription");
-      prescription.push({
-        name: $("#search-box")[0].value,
-        quantity: $("#quantity")[0].value
-      });
-      Session.set('prescription', prescription);
+      medicinesList = Session.get("medicinesList");
 
-      $("#search-box")[0].value = "";
-      $("#quantity")[0].value = "";
+      // checking if entered medicine name is equal to one of the names in the mathched medicines list
+      isValidName = medicinesList.some(function (element, i) {
+        if (element.name.toLowerCase() === $("#search-box")[0].value.toLowerCase()) {
+          index = i;
+          return true;
+        }
+      })
+      if (isValidName) {
+        prescription = Session.get("prescription");
+        prescription.push({
+          name: medicinesList[index].name,
+          quantity: $("#quantity")[0].value
+        });
+        Session.set('prescription', prescription);
+
+        // clear the text input
+        $("#search-box")[0].value = "";
+        $("#quantity")[0].value = "";
+      }
+      else {
+        console.log("The entered medicine is not in the database.");
+        if (medicinesList.length > 0) {
+          console.log("Did you mean " + medicinesList[0].name + "?");
+        }
+      }
+
     }
   });
 }
