@@ -3,13 +3,22 @@
 </head>
 
 <body>
-  <h1>Search stores by medicine availability</h1>
+  <div class="container">
+    <h1>Search stores by medicine availability</h1>
 
-  {{> medicinesList}}
+    {{> fileUploadForm}}
+
+    <form class="form-inline search-form">
+      <input type="text" id="search-box" class="form-control has-success has-feedback" placeholder="Medicine name..." />
+      <input type="text" id="quantity" class="form-control" placeholder="Quantity..." />
+      <input type="submit" class="btn btn-primary" />
+    </form>
+
+    {{> medicinesList}}
+  </div>
 </body>
 
 <template name="medicinesList">
-  <p>The list of medicines - </p>
   <ul>
     {{#each medicines}}
       {{> medicine}}
@@ -21,4 +30,14 @@
   <li>
     {{name}}
   </li>
+</template>
+
+<template name="fileUploadForm">
+  <div class="file-upload-form clearfix">
+    <div class="form-group">
+      <label for="file-input">Upload CSV file</label>
+      <input type="file" id="file-input" class="form-control" />
+    </div>
+    <button id="upload-button" class="btn btn-primary pull-right">Upload</button>
+  </div>
 </template>
