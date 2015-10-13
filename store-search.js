@@ -3,7 +3,11 @@ Medicines = new Mongo.Collection("medicines");
 if (Meteor.isClient) {
   Template.medicinesList.helpers({
     medicines: function () {
-      return Medicines.find({}, { sort: { name: 1 } });
+      if (Session.get("medicinesList") !== undefined) {
+        return Session.get("medicinesList");
+      }
+
+      return Medicines.find({}, { sort: { name: 1 }, limit: 15 });
     }
   });
 
@@ -43,6 +47,28 @@ if (Meteor.isClient) {
           console.log("Parsing complete.");
         }
       });
+    }
+  });
+
+  Template.body.events({
+    'submit .search-form, input #search-box': function (event) {
+      var searchTerm;
+
+      event.preventDefault();
+
+      searchTerm = $("#search-box")[0].value;
+      console.log("Your search term: " + searchTerm);
+      Session.set("searchTerm", searchTerm);
+
+      if (searchTerm.length > 0) {
+        searchTerm = new RegExp(searchTerm, 'i');
+        Session.set("medicinesList", Medicines.find({ name: searchTerm }).fetch());
+      } else {
+        Session.set("medicinesList", undefined);
+      }
+
+      console.log("Search results: ");
+      console.log(Session.get("medicinesList"));
     }
   });
 }
