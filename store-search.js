@@ -13,16 +13,10 @@ if (Meteor.isClient) {
 
   Template.prescription.helpers({
     medicines: function () {
-      return [{
-        name: "Lasix",
-        quantity: 5
-      }, {
-        name: "Actos",
-        quantity: 10
-      }, {
-        name: "Nexium",
-        quantity: 6
-      }];
+      if (Session.get("prescription") === undefined) {
+        Session.set("prescription", []);
+      }
+      return Session.get("prescription");
     }
   });
 
@@ -70,10 +64,8 @@ if (Meteor.isClient) {
   });
 
   Template.body.events({
-    'submit .search-form, input #search-box': function (event) {
+    'input #search-box': function (event) {
       var searchTerm;
-
-      event.preventDefault();
 
       searchTerm = $("#search-box")[0].value;
       console.log("Your search term: " + searchTerm);
@@ -88,6 +80,21 @@ if (Meteor.isClient) {
 
       console.log("Search results: ");
       console.log(Session.get("medicinesList"));
+    },
+    'submit .search-form': function () {
+      var prescription;
+
+      event.preventDefault();
+
+      prescription = Session.get("prescription");
+      prescription.push({
+        name: $("#search-box")[0].value,
+        quantity: $("#quantity")[0].value
+      });
+      Session.set('prescription', prescription);
+
+      $("#search-box")[0].value = "";
+      $("#quantity")[0].value = "";
     }
   });
 }
