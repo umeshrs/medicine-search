@@ -15,6 +15,10 @@ if (Meteor.isClient) {
     'click #upload-button': function () {
       var config, i, medicineDetails, key;
 
+      if ($("#file-input")[0].files.length === 0) {
+        alert("Please choose a file to upload.");
+        return;
+      }
       config = {
         header: true,
         dynamicTyping: true,
