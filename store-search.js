@@ -11,6 +11,21 @@ if (Meteor.isClient) {
     }
   });
 
+  Template.prescription.helpers({
+    medicines: function () {
+      return [{
+        name: "Lasix",
+        quantity: 5
+      }, {
+        name: "Actos",
+        quantity: 10
+      }, {
+        name: "Nexium",
+        quantity: 6
+      }];
+    }
+  });
+
   Template.fileUploadForm.events({
     'click #upload-button': function () {
       var config, i, medicineDetails, key;

@@ -8,10 +8,12 @@
 
     {{> fileUploadForm}}
 
+    {{> prescription}}
+
     <form class="form-inline search-form">
       <input type="text" id="search-box" class="form-control has-success has-feedback" placeholder="Medicine name..." />
       <input type="text" id="quantity" class="form-control" placeholder="Quantity..." />
-      <input type="submit" class="btn btn-primary" />
+      <input type="submit" class="btn btn-primary" value="Add" />
     </form>
 
     {{> medicinesList}}
@@ -19,7 +21,7 @@
 </body>
 
 <template name="medicinesList">
-  <ul>
+  <ul class="list-group">
     {{#each medicines}}
       {{> medicine}}
     {{/each}}
@@ -27,7 +29,7 @@
 </template>
 
 <template name="medicine">
-  <li>
+  <li class="list-group-item">
     {{name}}
   </li>
 </template>
@@ -35,9 +37,28 @@
 <template name="fileUploadForm">
   <div class="file-upload-form clearfix">
     <div class="form-group">
-      <label for="file-input">Upload CSV file</label>
+      <label class="control-label" for="file-input">Upload CSV file</label>
       <input type="file" id="file-input" class="form-control" />
     </div>
     <button id="upload-button" class="btn btn-primary pull-right">Upload</button>
   </div>
+</template>
+
+<template name="prescription">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Drug Name</th>
+        <th>Quantity</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each medicines}}
+        <tr>
+          <td>{{name}}</td>
+          <td>{{quantity}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
 </template>
