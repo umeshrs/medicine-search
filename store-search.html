@@ -17,11 +17,12 @@
     </form>
 
     {{> medicinesList}}
+    {{> storesList}}
   </div>
 </body>
 
 <template name="medicinesList">
-  <ul class="list-group">
+  <ul class="list-group col-md-6">
     {{#each medicines}}
       {{> medicine}}
     {{/each}}
@@ -37,8 +38,12 @@
 <template name="fileUploadForm">
   <div class="file-upload-form clearfix">
     <div class="form-group">
-      <label class="control-label" for="file-input">Upload CSV file</label>
-      <input type="file" id="file-input" class="form-control" />
+      <label class="control-label" for="store-file-input">Upload stores file (.csv)</label>
+      <input type="file" id="store-file-input" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="medicine-file-input">Upload medicines file (.csv)</label>
+      <input type="file" id="medicine-file-input" class="form-control" />
     </div>
     <button id="upload-button" class="btn btn-primary pull-right">Upload</button>
   </div>
@@ -61,4 +66,23 @@
       {{/each}}
     </tbody>
   </table>
+</template>
+
+<template name="storesList">
+  <ul class="list-unstyled col-md-6" id="stores-list">
+    {{#each stores}}
+      {{> store}}
+    {{/each}}
+  </ul>
+</template>
+
+<template name="store">
+  <li>
+    <p>
+      <strong>{{name}}</strong><br />
+      <!-- ({{lat}}, {{lng}})<br /> -->
+      <!-- {{address.street}}<br /> -->
+      <!-- {{address.postalCode}} {{address.city}}, {{address.country}}<br /> -->
+    </p>
+  </li>
 </template>
