@@ -1,4 +1,5 @@
 Medicines = new Mongo.Collection("medicines");
+Stores = new Mongo.Collection("stores");
 
 if (Meteor.isClient) {
   Template.medicinesList.helpers({
@@ -23,11 +24,17 @@ if (Meteor.isClient) {
     }
   });
 
+  Template.storesList.helpers({
+    stores: function () {
+      return Stores.find({}, {sort: {createdAt: 1}});
+    }
+  });
+
   Template.fileUploadForm.events({
     'click #upload-button': function () {
-      var config, i, medicineDetails, key;
+      var config, i, medicineDetails, key, storeDetails;
 
-      if ($("#file-input")[0].files.length === 0) {
+      if ($("#medicine-file-input")[0].files.length === 0) {
         alert("Please choose a file to upload.");
         return;
       }
@@ -51,7 +58,33 @@ if (Meteor.isClient) {
         }
       };
 
-      $('#file-input').parse({
+      $('#medicine-file-input').parse({
+        config: config,
+        before: function (file, inputElem) {
+          console.log("Parsing file...", file);
+        },
+        error: function (err, file) {
+          console.log("ERROR:", err, file);
+        },
+        complete: function (results) {
+          console.log("Parsing complete.");
+        }
+      });
+
+      config.complete = function (results) {
+        console.log(results);
+
+        for (i = 0; i < results.data.length; i++) {
+          storeDetails = results.data[i];
+
+          Stores.insert({
+            name: storeDetails['storeName'],
+            createdAt: new Date()
+          });
+        }
+      };
+
+      $('#store-file-input').parse({
         config: config,
         before: function (file, inputElem) {
           console.log("Parsing file...", file);
