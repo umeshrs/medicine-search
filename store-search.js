@@ -32,12 +32,13 @@ if (Meteor.isClient) {
 
   Template.fileUploadForm.events({
     'click #upload-button': function () {
-      var config, i, medicineDetails, key, storeDetails;
+      var config, i, medicineDetails, key, storeDetails, name, purpose, inventory;
 
       if ($("#medicine-file-input")[0].files.length === 0) {
         alert("Please choose a file to upload.");
         return;
       }
+
       config = {
         header: true,
         dynamicTyping: true,
@@ -46,11 +47,10 @@ if (Meteor.isClient) {
           console.log(results);
 
           for (i = 0; i < results.data.length; i++) {
-            medicineDetails = results.data[i];
+            storeDetails = results.data[i];
 
-            Medicines.insert({
-              name: medicineDetails['medicineName'],
-              purpose: medicineDetails['purpose'],
+            Stores.insert({
+              name: storeDetails['storeName'],
               createdAt: new Date()
             });
           }
@@ -58,7 +58,7 @@ if (Meteor.isClient) {
         }
       };
 
-      $('#medicine-file-input').parse({
+      $('#store-file-input').parse({
         config: config,
         before: function (file, inputElem) {
           console.log("Parsing file...", file);
@@ -75,16 +75,42 @@ if (Meteor.isClient) {
         console.log(results);
 
         for (i = 0; i < results.data.length; i++) {
-          storeDetails = results.data[i];
+          medicineDetails = results.data[i];
+          inventory = [];
+          for (key in medicineDetails) {
+            switch (key) {
+              case "medicineName":
+                name = medicineDetails[key];
+                break;
+              case "purpose":
+                purpose = medicineDetails[key];
+                break;
+              default:
+                if (medicineDetails[key]) {
+                  // console.log(key);
+                  // console.log(medicineDetails[key]);
+                  storeDetails = Stores.findOne({ name: key });
+                  // console.log(storeDetails);
+                  inventory.push({
+                    store_id: storeDetails._id,
+                    storeName: key,
+                    stock: medicineDetails[key]
+                  });
+                  // console.log(inventory);
+                }
+            }
+          }
 
-          Stores.insert({
-            name: storeDetails['storeName'],
+          Medicines.insert({
+            name: name,
+            purpose: purpose,
+            inventory: inventory,
             createdAt: new Date()
           });
         }
       };
 
-      $('#store-file-input').parse({
+      $('#medicine-file-input').parse({
         config: config,
         before: function (file, inputElem) {
           console.log("Parsing file...", file);
@@ -150,6 +176,7 @@ if (Meteor.isClient) {
         $("#search-box")[0].focus();
         // clear search results
         Session.set('medicinesList', null);
+
       }
       else {
         console.log("The entered medicine is not in the database.");
