@@ -3,7 +3,10 @@ Medicines = new Mongo.Collection("medicines");
 if (Meteor.isClient) {
   Template.medicinesList.helpers({
     medicines: function () {
-      if (Session.get("medicinesList") !== undefined) {
+      if (Session.get("medicinesList") === undefined) {
+        Session.set("medicinesList", null);
+      }
+      if (Session.get("medicinesList") !== null) {
         return Session.get("medicinesList");
       }
 
@@ -76,11 +79,10 @@ if (Meteor.isClient) {
         // medicinesList is the list of medicines matching the searchTerm
         Session.set("medicinesList", Medicines.find({ name: searchTerm }).fetch());
       } else {
-        Session.set("medicinesList", undefined);
+        Session.set("medicinesList", null);
       }
 
-      console.log("Search results: ");
-      console.log(Session.get("medicinesList"));
+      console.log("Search results: ", Session.get("medicinesList"));
     },
     'submit .search-form': function () {
       var prescription, medicinesList, isValidName, index;
@@ -88,6 +90,11 @@ if (Meteor.isClient) {
       event.preventDefault();
 
       medicinesList = Session.get("medicinesList");
+
+      if (medicinesList === null) {
+        alert("Please enter a medicine name.");
+        return;
+      }
 
       // checking if entered medicine name is equal to one of the names in the mathched medicines list
       isValidName = medicinesList.some(function (element, i) {
@@ -107,6 +114,9 @@ if (Meteor.isClient) {
         // clear the text input
         $("#search-box")[0].value = "";
         $("#quantity")[0].value = "";
+        $("#search-box")[0].focus();
+        // clear search results
+        Session.set('medicinesList', null);
       }
       else {
         console.log("The entered medicine is not in the database.");
