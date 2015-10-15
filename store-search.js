@@ -152,7 +152,7 @@ if (Meteor.isClient) {
       // console.log("Search results: ", Session.get("medicinesList"));
     },
     'submit .search-form': function () {
-      var prescription, medicinesList, isValidName, index, i, medicineDetails, matchedStores, j, storeName, isPresent;
+      var prescription, medicinesList, isValidName, index, i, medicineDetails, matchedStores, j, storeName, isPresent, quantity;
 
       event.preventDefault();
 
@@ -188,14 +188,23 @@ if (Meteor.isClient) {
         if (prescription.length > 0) {
           medicineDetails = Medicines.findOne({ name: prescription[0].name });
           matchedStores = medicineDetails.inventory;
+          for (i = 0; i < matchedStores.length; i++) {
+            matchedStores[i].stock = [{ medicineName: medicineDetails.name, quantity: matchedStores[i].stock }];
+          }
           console.log(matchedStores);
           for (i = 1; i < prescription.length; i++) {
             medicineDetails = Medicines.findOne({ name: prescription[i].name });
             for (j = 0; j < matchedStores.length; j++) {
               isPresent = medicineDetails.inventory.some(function (element, index) {
-                return (element.storeName === matchedStores[j].storeName);
+                if (element.storeName === matchedStores[j].storeName) {
+                  quantity = element.stock;
+                  return true;
+                }
               });
-              if (! isPresent) {
+              if (isPresent) {
+                matchedStores[j].stock.push({ medicineName: medicineDetails.name, quantity: quantity });
+              }
+              else {
                 matchedStores.splice(j, 1);
                 j--;  // all elements after index j are shifted left by 1 after the splice
               }

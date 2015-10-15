@@ -80,6 +80,9 @@
   <li>
     <p>
       <strong>{{storeName}}</strong><br />
+      {{#each stock}}
+        {{medicineName}} <span class="badge">{{quantity}}</span>
+      {{/each}}
       <!-- ({{lat}}, {{lng}})<br /> -->
       <!-- {{address.street}}<br /> -->
       <!-- {{address.postalCode}} {{address.city}}, {{address.country}}<br /> -->
