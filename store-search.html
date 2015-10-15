@@ -55,6 +55,7 @@
       <tr>
         <th>Drug Name</th>
         <th>Quantity</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -62,6 +63,9 @@
         <tr>
           <td>{{name}}</td>
           <td>{{quantity}}</td>
+          <td>
+            <button type="button" class="close delete" aria-label="Delete"><span aria-hidden="true">&times;</span></button>
+          </td>
         </tr>
       {{/each}}
     </tbody>

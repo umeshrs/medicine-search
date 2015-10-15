@@ -133,6 +133,12 @@ if (Meteor.isClient) {
     }
   });
 
+  Template.prescription.events({
+    'click .delete': function () {
+      event.target.parentElement.parentElement.parentElement.remove();
+    }
+  });
+
   Template.body.events({
     'input #search-box': function (event) {
       var searchTerm;
