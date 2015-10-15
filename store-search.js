@@ -26,7 +26,15 @@ if (Meteor.isClient) {
 
   Template.storesList.helpers({
     stores: function () {
-      return Stores.find({}, {sort: {createdAt: 1}});
+      if (Session.get("storesList") === undefined) {
+        Session.set("storesList", null);
+      }
+      if (Session.get("storesList") !== null) {
+        return Session.get("storesList");
+      }
+
+      // return Stores.find({}, {sort: {createdAt: 1}});
+      return [];
     }
   });
 
@@ -196,6 +204,7 @@ if (Meteor.isClient) {
             // console.log(medicineDetails.name);
             // console.log(medicineDetails.inventory);
           }
+          Session.set("storesList", matchedStores);
         }
 
       }
