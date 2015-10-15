@@ -130,7 +130,7 @@ if (Meteor.isClient) {
       var searchTerm;
 
       searchTerm = $("#search-box")[0].value;
-      console.log("Your search term: " + searchTerm);
+      // console.log("Your search term: " + searchTerm);
       Session.set("searchTerm", searchTerm);
 
       if (searchTerm.length > 0) {
@@ -141,10 +141,10 @@ if (Meteor.isClient) {
         Session.set("medicinesList", null);
       }
 
-      console.log("Search results: ", Session.get("medicinesList"));
+      // console.log("Search results: ", Session.get("medicinesList"));
     },
     'submit .search-form': function () {
-      var prescription, medicinesList, isValidName, index;
+      var prescription, medicinesList, isValidName, index, i, medicineDetails, matchedStores, j, storeName, isPresent;
 
       event.preventDefault();
 
@@ -176,6 +176,27 @@ if (Meteor.isClient) {
         $("#search-box")[0].focus();
         // clear search results
         Session.set('medicinesList', null);
+
+        if (prescription.length > 0) {
+          medicineDetails = Medicines.findOne({ name: prescription[0].name });
+          matchedStores = medicineDetails.inventory;
+          console.log(matchedStores);
+          for (i = 1; i < prescription.length; i++) {
+            medicineDetails = Medicines.findOne({ name: prescription[i].name });
+            for (j = 0; j < matchedStores.length; j++) {
+              isPresent = medicineDetails.inventory.some(function (element, index) {
+                return (element.storeName === matchedStores[j].storeName);
+              });
+              if (! isPresent) {
+                matchedStores.splice(j, 1);
+                j--;  // all elements after index j are shifted left by 1 after the splice
+              }
+            }
+            console.log(matchedStores);
+            // console.log(medicineDetails.name);
+            // console.log(medicineDetails.inventory);
+          }
+        }
 
       }
       else {
