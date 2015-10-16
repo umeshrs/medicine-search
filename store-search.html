@@ -13,21 +13,27 @@
 
     {{> prescription}}
 
-    <form class="form-inline search-form">
-      <div class="form-group">
-        {{> inputAutocomplete settings=settings id="search-box" class="form-control" placeholder="Medicine name..." autocomplete="off"}}
-      </div>
-      <div class="form-group">
-        <input type="text" id="quantity" class="form-control" placeholder="Quantity..." autocomplete="off" />
-      </div>
-      <div class="form-group text-right">
-        <input type="submit" class="btn btn-success" value="Add" />
-      </div>
-    </form>
-
+    <div class="row">
+      <form class="search-form clearfix">
+        <div class="form-group col-sm-6">
+          <label for="search-box" class="control-label sr-only"></label>
+          {{> inputAutocomplete settings=settings id="search-box" class="form-control" placeholder="Medicine name..." autocomplete="off"}}
+        </div>
+        <div class="form-group col-sm-4">
+          <label for="quantity" class="control-label sr-only"></label>
+          <input type="text" id="quantity" class="form-control" placeholder="Quantity..." autocomplete="off" />
+        </div>
+        <div class="form-group col-sm-2 text-right">
+          <input type="submit" class="btn btn-success" value="Add" />
+        </div>
+      </form>
+    </div>
+    <br />
+    <br />
     <!-- {{> medicinesList}} -->
     {{> storesList}}
     <div class="clearfix"></div>
+    <br />
     {{> fileUploadForm}}
   </div>
 </body>
@@ -90,11 +96,13 @@
         {{/each}}
       </tbody>
     </table>
+    <br />
+    <br />
   </div>
 </template>
 
 <template name="storesList">
-  <div class="panel panel-success col-md-6" style="padding: 0px;">
+  <div class="panel panel-success">
     <div class="panel-heading">
       <h3 class="panel-title">Matched stores</h3>
     </div>
@@ -102,6 +110,8 @@
       {{#each stores}}
         {{> store}}
       {{/each}}
+      <br />
+      <br />
     </ul>
   </div>
 </template>
