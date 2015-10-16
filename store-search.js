@@ -180,7 +180,7 @@ if (Meteor.isClient) {
       // console.log("Search results: ", Session.get("medicinesList"));
     },
     'submit .search-form': function () {
-      var prescription, medicinesList, isValidName, index, i, medicineDetails, matchedStores, j, storeName, isPresent, quantity;
+      var prescription, medicinesList, isValidName, isValidQuantity, index, i, medicineDetails, matchedStores, j, storeName, isPresent, quantity;
 
       event.preventDefault();
 
@@ -191,13 +191,28 @@ if (Meteor.isClient) {
         return;
       }
 
+      if ($("#quantity")[0].value === "") {
+        alert("Please fill the quantity field.");
+        return;
+      }
+
       // checking if entered medicine name is equal to one of the names in the mathched medicines list
       isValidName = medicinesList.some(function (element, i) {
         if (element.name.toLowerCase() === $("#search-box")[0].value.toLowerCase()) {
           index = i;
           return true;
         }
-      })
+      });
+
+      isValidQuantity = function() {
+        return (+$("#quantity")[0].value > 0);
+      }
+
+      if (! isValidQuantity()) {
+        alert("Quantity should be a positive number.");
+        return;
+      }
+
       if (isValidName) {
         prescription = Session.get("prescription");
         prescription.push({
