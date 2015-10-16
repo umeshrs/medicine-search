@@ -2,6 +2,22 @@ Medicines = new Mongo.Collection("medicines");
 Stores = new Mongo.Collection("stores");
 
 if (Meteor.isClient) {
+  Template.body.helpers({
+    settings: function () {
+      return {
+        position: "bottom",
+        limit: 10,
+        rules: [
+          {
+            collection: Medicines,
+            field: "name",
+            matchAll: true,
+            template: Template.medicine
+          }
+        ]
+      };
+    }
+  });
   Template.medicinesList.helpers({
     medicines: function () {
       if (Session.get("medicinesList") === undefined) {
