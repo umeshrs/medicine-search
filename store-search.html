@@ -7,20 +7,28 @@
 
 <body>
   <div class="container">
-    <h1>Search stores by medicine availability</h1>
-
-    {{> fileUploadForm}}
+    <div class="page-header">
+      <h1>Find stores by <em>medicine availability</em></h1>
+    </div>
 
     {{> prescription}}
 
     <form class="form-inline search-form">
-      <input type="text" id="search-box" class="form-control has-success has-feedback" placeholder="Medicine name..." />
-      <input type="text" id="quantity" class="form-control" placeholder="Quantity..." />
-      <input type="submit" class="btn btn-primary" value="Add" />
+      <div class="form-group">
+        <input type="text" id="search-box" class="form-control" placeholder="Medicine name..." autocomplete="off" />
+      </div>
+      <div class="form-group">
+        <input type="text" id="quantity" class="form-control" placeholder="Quantity..." autocomplete="off" />
+      </div>
+      <div class="form-group text-right">
+        <input type="submit" class="btn btn-success" value="Add" />
+      </div>
     </form>
 
     {{> medicinesList}}
     {{> storesList}}
+    <div class="clearfix"></div>
+    {{> fileUploadForm}}
   </div>
 </body>
 
@@ -39,7 +47,7 @@
 </template>
 
 <template name="fileUploadForm">
-  <div class="file-upload-form clearfix">
+  <form class="file-upload-form clearfix">
     <div class="form-group">
       <label class="control-label" for="store-file-input">Upload stores file (.csv)</label>
       <input type="file" id="store-file-input" class="form-control" />
@@ -48,21 +56,30 @@
       <label class="control-label" for="medicine-file-input">Upload medicines file (.csv)</label>
       <input type="file" id="medicine-file-input" class="form-control" />
     </div>
-    <button id="upload-button" class="btn btn-primary pull-right">Upload</button>
-  </div>
+    <div class="form-group text-right">
+      <button id="upload-button" class="btn btn-success">Upload</button>
+    </div>
+  </form>
 </template>
 
 <template name="prescription">
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th>Drug Name</th>
-        <th>Quantity</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each medicines}}
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">Prescription</h3>
+    </div>
+    <div class="panel-body">
+      <p>Please add medicines below to add them to the prescription.</p>
+    </div>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Drug Name</th>
+          <th>Quantity</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each medicines}}
         <tr>
           <td>{{name}}</td>
           <td>{{quantity}}</td>
@@ -70,21 +87,27 @@
             <button type="button" class="close delete" aria-label="Delete"><span aria-hidden="true">&times;</span></button>
           </td>
         </tr>
-      {{/each}}
-    </tbody>
-  </table>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <template name="storesList">
-  <ul class="list-unstyled col-md-6" id="stores-list">
-    {{#each stores}}
-      {{> store}}
-    {{/each}}
-  </ul>
+  <div class="panel panel-success col-md-6" style="padding: 0px;">
+    <div class="panel-heading">
+      <h3 class="panel-title">Matched stores</h3>
+    </div>
+    <ul class="list-group" id="stores-list">
+      {{#each stores}}
+        {{> store}}
+      {{/each}}
+    </ul>
+  </div>
 </template>
 
 <template name="store">
-  <li>
+  <li class="list-group-item">
     <p>
       <strong>{{storeName}}</strong><br />
       {{#each stock}}
