@@ -37,6 +37,9 @@ if (Meteor.isClient) {
         Session.set("prescription", []);
       }
       return Session.get("prescription");
+    },
+    isEmpty: function () {
+      return (Session.get("prescription").length === 0);
     }
   });
 
@@ -51,6 +54,9 @@ if (Meteor.isClient) {
 
       // return Stores.find({}, {sort: {createdAt: 1}});
       return [];
+    },
+    isEmpty: function () {
+      return (! Session.get("storesList"));
     }
   });
 

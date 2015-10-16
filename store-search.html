@@ -96,8 +96,10 @@
         {{/each}}
       </tbody>
     </table>
+    {{#if isEmpty}}
     <br />
     <br />
+    {{/if}}
   </div>
 </template>
 
@@ -110,8 +112,10 @@
       {{#each stores}}
         {{> store}}
       {{/each}}
+      {{#if isEmpty}}
       <br />
       <br />
+      {{/if}}
     </ul>
   </div>
 </template>
