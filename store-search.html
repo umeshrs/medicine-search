@@ -2,7 +2,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>store-search</title>
+  <title>Find stores by medicine availability</title>
 </head>
 
 <body>
@@ -12,27 +12,10 @@
     </div>
 
     {{> prescription}}
-
-    <div class="row">
-      <form class="search-form clearfix">
-        <div class="form-group col-sm-6">
-          <label for="search-box" class="control-label sr-only"></label>
-          {{> inputAutocomplete settings=settings id="search-box" class="form-control" placeholder="Medicine name..." autocomplete="off"}}
-        </div>
-        <div class="form-group col-sm-4">
-          <label for="quantity" class="control-label sr-only"></label>
-          <input type="text" id="quantity" class="form-control" placeholder="Quantity..." autocomplete="off" />
-        </div>
-        <div class="form-group col-sm-2 text-right">
-          <input type="submit" class="btn btn-success" value="Add" />
-        </div>
-      </form>
-    </div>
     <br />
     <br />
     <!-- {{> medicinesList}} -->
     {{> storesList}}
-    <div class="clearfix"></div>
     <br />
     {{> fileUploadForm}}
   </div>
@@ -73,9 +56,6 @@
     <div class="panel-heading">
       <h3 class="panel-title">Prescription</h3>
     </div>
-    <div class="panel-body">
-      <p>Please add medicines below to add them to the prescription.</p>
-    </div>
     <table class="table table-hover">
       <thead>
         <tr>
@@ -100,6 +80,23 @@
     <br />
     <br />
     {{/if}}
+    <div class="panel-footer">
+      <div class="row">
+        <form class="search-form clearfix">
+          <div class="form-group col-sm-6">
+            <label for="search-box" class="control-label sr-only"></label>
+            {{> inputAutocomplete settings=settings id="search-box" class="form-control" placeholder="Medicine name..." autocomplete="off"}}
+          </div>
+          <div class="form-group col-sm-4">
+            <label for="quantity" class="control-label sr-only"></label>
+            <input type="text" id="quantity" class="form-control" placeholder="Quantity..." autocomplete="off" />
+          </div>
+          <div class="form-group col-sm-2 text-right">
+            <input type="submit" class="btn btn-success" value="Add" />
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 </template>
 
