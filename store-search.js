@@ -2,22 +2,6 @@ Medicines = new Mongo.Collection("medicines");
 Stores = new Mongo.Collection("stores");
 
 if (Meteor.isClient) {
-  Template.body.helpers({
-    settings: function () {
-      return {
-        position: "bottom",
-        limit: 10,
-        rules: [
-          {
-            collection: Medicines,
-            field: "name",
-            matchAll: true,
-            template: Template.medicine
-          }
-        ]
-      };
-    }
-  });
   Template.medicinesList.helpers({
     medicines: function () {
       if (Session.get("medicinesList") === undefined) {
@@ -40,6 +24,20 @@ if (Meteor.isClient) {
     },
     isEmpty: function () {
       return (Session.get("prescription").length === 0);
+    },
+    settings: function () {
+      return {
+        position: "bottom",
+        limit: 10,
+        rules: [
+          {
+            collection: Medicines,
+            field: "name",
+            matchAll: true,
+            template: Template.medicine
+          }
+        ]
+      };
     }
   });
 
@@ -156,12 +154,22 @@ if (Meteor.isClient) {
   });
 
   Template.prescription.events({
-    'click .delete': function () {
-      event.target.parentElement.parentElement.parentElement.remove();
+    'click .delete': function (event) {
+      var medicineName, index, prescription;
+
+      medicineName = event.target.parentElement.parentElement.parentElement.getElementsByTagName("td")[0].innerHTML;
+      prescription = Session.get("prescription");
+      prescription.some(function (element, i) {
+        if (element.name === medicineName)
+          index = i;
+      });
+      prescription.splice(index, 1);
+      Session.set("prescription", prescription);
+      matchStores(prescription);
     }
   });
 
-  Template.body.events({
+  Template.prescription.events({
     'input #search-box': function (event) {
       var searchTerm;
 
@@ -179,8 +187,8 @@ if (Meteor.isClient) {
 
       // console.log("Search results: ", Session.get("medicinesList"));
     },
-    'submit .search-form': function () {
-      var prescription, medicinesList, isValidName, isValidQuantity, index, i, medicineDetails, matchedStores, j, storeName, isPresent, quantity;
+    'submit .search-form': function (event) {
+      var prescription, medicinesList, isValidName, isValidQuantity, index, storeName;
 
       event.preventDefault();
 
@@ -227,48 +235,52 @@ if (Meteor.isClient) {
         $("#search-box")[0].focus();
         // clear search results
         Session.set('medicinesList', null);
-
-        if (prescription.length > 0) {
-          medicineDetails = Medicines.findOne({ name: prescription[0].name });
-          matchedStores = medicineDetails.inventory;
-          for (i = 0; i < matchedStores.length; i++) {
-            matchedStores[i].stock = [{ medicineName: medicineDetails.name, quantity: matchedStores[i].stock }];
-          }
-          console.log(matchedStores);
-          for (i = 1; i < prescription.length; i++) {
-            medicineDetails = Medicines.findOne({ name: prescription[i].name });
-            for (j = 0; j < matchedStores.length; j++) {
-              isPresent = medicineDetails.inventory.some(function (element, index) {
-                if (element.storeName === matchedStores[j].storeName) {
-                  quantity = element.stock;
-                  return true;
-                }
-              });
-              if (isPresent) {
-                matchedStores[j].stock.push({ medicineName: medicineDetails.name, quantity: quantity });
-              }
-              else {
-                matchedStores.splice(j, 1);
-                j--;  // all elements after index j are shifted left by 1 after the splice
-              }
-            }
-            console.log(matchedStores);
-            // console.log(medicineDetails.name);
-            // console.log(medicineDetails.inventory);
-          }
-          Session.set("storesList", matchedStores);
-        }
-
+        matchStores(prescription);
       }
       else {
-        console.log("The entered medicine is not in the database.");
+        alert("The entered medicine is not in the database.");
         if (medicinesList.length > 0) {
           console.log("Did you mean " + medicinesList[0].name + "?");
         }
       }
-
     }
   });
+
+  function matchStores (prescription) {
+    var medicineDetails, matchedStores, i, j, isPresent, quantity;
+
+    if (prescription.length > 0) {
+      medicineDetails = Medicines.findOne({ name: prescription[0].name });
+      matchedStores = medicineDetails.inventory;
+      for (i = 0; i < matchedStores.length; i++) {
+        matchedStores[i].stock = [{ medicineName: medicineDetails.name, quantity: matchedStores[i].stock }];
+      }
+      console.log(matchedStores);
+      for (i = 1; i < prescription.length; i++) {
+        medicineDetails = Medicines.findOne({ name: prescription[i].name });
+        for (j = 0; j < matchedStores.length; j++) {
+          isPresent = medicineDetails.inventory.some(function (element, index) {
+            if (element.storeName === matchedStores[j].storeName) {
+              quantity = element.stock;
+              return true;
+            }
+          });
+          if (isPresent) {
+            matchedStores[j].stock.push({ medicineName: medicineDetails.name, quantity: quantity });
+          }
+          else {
+            matchedStores.splice(j, 1);
+            j--;  // all elements after index j are shifted left by 1 after the splice
+          }
+        }
+        console.log(matchedStores);
+      }
+      Session.set("storesList", matchedStores);
+    }
+    else {
+      Session.set("storesList", null);
+    }
+  }
 }
 
 if (Meteor.isServer) {
