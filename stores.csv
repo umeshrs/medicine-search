@@ -1,0 +1,26 @@
+storeName,latitude,longitude,street,postalCode,city,country,telephone,taskTitle,taskDescription,taskStatus
+Store 1,48.827979,2.311687,80 Rue Jean-Pierre Timbaud,75011,Paris,France,,Finish survey#1.,,PENDING
+Store 2,48.837057,2.365026,Rue de l'Infirmerie,75013,Paris,France,,"Lorem ipsum dolor sit amet, consectetur adipisicing elit.",,PENDING
+Store 3,48.858304,2.29448,5 Avenue Anatole France,75007,Paris,France,,"Lorem ipsum dolor sit amet, consectetur adipisicing elit.",,OVERDUE
+Store 4,48.86735,2.37645,82 Rue Jean-Pierre Timbaud,75011,Paris,France,,Finish survey#2.,,OVERDUE
+Store 5,48.86108,2.340722,154 Rue du Louvre,75001,Paris,France,,,,NONE
+Store 6,48.882247,2.352825,2 Rue Ambroise Paré,75010,Paris,France,,"Lorem ipsum dolor sit amet, consectetur adipisicing elit.",,PENDING
+Store 7,48.873791,2.295027,L'Arc de Triomphe de l'Etoile,75017,Paris,France,,,,NONE
+Store 8,48.830235,2.340404,1 Rue Cabanis,75014,Paris,France,,,,NONE
+Store 9,48.837343,2.338925,27 Rue du Faubourg Saint-Jacques,75014,Paris,France,,"Lorem ipsum dolor sit amet, consectetur adipisicing elit.",,OVERDUE
+Store 10,48.839168,2.343941,74 Boulevard de Port-Royal,75005,Paris,France,,"Lorem ipsum dolor sit amet, consectetur adipisicing elit.",,PENDING
+Store 11,48.854635,2.34884,1 Parvis Notre-Dame - Pl. Jean-Paul II,75004,Paris,France,,"Lorem ipsum dolor sit amet, consectetur adipisicing elit.",,OVERDUE
+Store 12,48.844851,2.314746,149 Rue de Sèvres,75015,Paris,France,,,,NONE
+Store 13,48.822787,2.332931,42 Boulevard Jourdan,75014,Paris,France,,"Lorem ipsum dolor sit amet, consectetur adipisicing elit.",,PENDING
+Store 14,48.832093,2.332118,15 Avenue du Général Leclerc,75014,Paris,France,,"Lorem ipsum dolor sit amet, consectetur adipisicing elit.",,OVERDUE
+Store 15,48.839335,2.273409,20 Rue Leblanc,75015,Paris,France,,,,NONE
+Store 16,48.837761,2.292834,15 Rue Eugène Millon,75015,Paris,France,,,,NONE
+Store 17,48.83422,2.29428,10 Rue Vaugelas,75015,Paris,France,,,,NONE
+Store 18,48.843921,2.26655,11 Rue Chardon Lagache,75016,Paris,France,,"Lorem ipsum dolor sit amet, consectetur adipisicing elit.",,PENDING
+Store 19,48.823732,2.35285,8 Place de l'Abbé Georges Hénocque,75013,Paris,France,,"Lorem ipsum dolor sit amet, consectetur adipisicing elit.",,OVERDUE
+Store 20,48.834214,2.347534,54-56 Rue Pascal,75013,Paris,France,,"Lorem ipsum dolor sit amet, consectetur adipisicing elit.",,OVERDUE
+Store 21,48.839169,2.355515,33 Rue du Fer À Moulin,75005,Paris,France,,"Lorem ipsum dolor sit amet, consectetur adipisicing elit.",,PENDING
+Store 22,48.848623,2.382592,184 Rue du Faubourg Saint-Antoine,75012,Paris,France,,,,NONE
+Store 23,48.843036,2.398269, Rue Santerre,75012,Paris,France,,"Lorem ipsum dolor sit amet, consectetur adipisicing elit.",,PENDING
+Store 24,48.84256,2.405278,26 Avenue du Dr Arnold Netter,75012,Paris,France,,"Lorem ipsum dolor sit amet, consectetur adipisicing elit.",,PENDING
+Store 25,48.873186,2.369817,1 Avenue Claude Vellefaux,75010,Paris,France,,,,NONE
