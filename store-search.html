@@ -36,19 +36,28 @@
 </template>
 
 <template name="fileUploadForm">
-  <form class="file-upload-form clearfix">
-    <div class="form-group">
-      <label class="control-label" for="store-file-input">Upload stores file (.csv)</label>
-      <input type="file" id="store-file-input" class="form-control" />
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <h3 class="panel-title">Dependent files</h3>
     </div>
-    <div class="form-group">
-      <label class="control-label" for="medicine-file-input">Upload medicines file (.csv)</label>
-      <input type="file" id="medicine-file-input" class="form-control" />
+    <div class="panel-body">
+      <form class="file-upload-form clearfix">
+        <div class="form-group">
+          <label class="control-label" for="store-file-input">Upload stores file (.csv)</label>
+          <input type="file" id="store-file-input" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="medicine-file-input">Upload medicines file (.csv)</label>
+          <input type="file" id="medicine-file-input" class="form-control" />
+        </div>
+      </form>
     </div>
-    <div class="form-group text-right">
-      <button id="upload-button" class="btn btn-success">Upload</button>
+    <div class="panel-footer">
+        <div class="form-group text-right">
+          <button id="upload-button" class="btn btn-info">Upload</button>
+        </div>
     </div>
-  </form>
+  </div>
 </template>
 
 <template name="prescription">
@@ -92,7 +101,7 @@
             <input type="text" id="quantity" class="form-control" placeholder="Quantity..." autocomplete="off" />
           </div>
           <div class="form-group col-sm-2 text-right">
-            <input type="submit" class="btn btn-success" value="Add" />
+            <input type="submit" class="btn btn-primary" value="Add" />
           </div>
         </form>
       </div>
